@@ -1,0 +1,59 @@
+name: Delete remote directory
+description: >-
+  Deletes a directory from another repository
+inputs:
+  target-directory:
+    description: Target directory to get deleted
+    required: true
+  target-github-username:
+    description: Name of the target username/organization
+    required: true
+  target-repository-name:
+    description: Target repository
+    required: true
+  user-email:
+    description: Email for the git commit
+    required: true
+  github-server:
+    description: 'Github server'
+    default: 'github.com'
+    required: false
+  user-name:
+    description: >-
+      [Optional] Name for the git commit. Defaults to the target
+      username/organization name
+    required: false
+    default: ''
+  target-repository-username:
+    description: '[Optional] Username/organization for the target repository'
+    required: false
+    default: ''
+  target-branch:
+    description: >-
+      [Optional] set target branch name for the destination repository. Defaults
+      to "main"
+    default: main
+    required: false
+  commit-message:
+    description: >-
+      [Optional] commit message for the output repository. ORIGIN_COMMIT is
+      replaced by the URL@commit in the origin repo
+    default: Update from ORIGIN_COMMIT
+    required: false
+
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+    - '${{ inputs.target-directory }}'
+    - '${{ inputs.target-github-username }}'
+    - '${{ inputs.target-repository-name }}'
+    - '${{ inputs.github-server }}'
+    - '${{ inputs.user-email }}'
+    - '${{ inputs.user-name }}'
+    - '${{ inputs.target-repository-username }}'
+    - '${{ inputs.target-branch }}'
+    - '${{ inputs.commit-message }}'
+branding:
+  icon: delete
+  color: red
