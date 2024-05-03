@@ -47,11 +47,19 @@ git clone --single-branch --depth 1 --branch "$TARGET_BRANCH" "$GIT_CMD_REPOSITO
   exit 1
 }
 
+echo "[+] Before moving .git directory"
+ls -al "$CLONE_DIR"
+
 TEMP_DIR=$(mktemp -d)
-# This mv has been the easier way to be able to remove files that were there
-# but not anymore. Otherwise we had to remove the files from "$CLONE_DIR",
-# including "." and with the exception of ".git/"
-mv "$CLONE_DIR/.git" "$TEMP_DIR/.git"
+
+# Move .git folder to safe backup folder
+mv "$CLONE_DIR/.git" "$TEMP_DIR/.git" || {
+  echo "Error: Failed to move .git directory to $TEMP_DIR"
+  exit 1
+}
+
+echo "[+] After moving .git directory"
+ls -al "$TEMP_DIR"
 
 # Prepare target directory
 ABSOLUTE_TARGET_DIRECTORY="$CLONE_DIR/$TARGET_DIRECTORY"
@@ -64,9 +72,15 @@ echo "[+] Listing Current Directory Location"
 ls -al
 
 # Move .git directory back to clone dir
-mv "$TEMP_DIR/.git" "$CLONE_DIR/.git"
+echo "[+] Before moving .git directory back"
+ls -al "$TEMP_DIR"
 
-echo "[+] Listing clone dir Location"
+mv "$TEMP_DIR/.git" "$CLONE_DIR/.git" || {
+  echo "Error: Failed to move .git directory back to $CLONE_DIR"
+  exit 1
+}
+
+echo "[+] After moving .git directory back"
 ls -al "$CLONE_DIR"
 
 echo "[+] Show current git status"
