@@ -55,16 +55,19 @@ mv "$CLONE_DIR/.git" "$TEMP_DIR/.git"
 
 # Prepare target directory
 ABSOLUTE_TARGET_DIRECTORY="$CLONE_DIR/$TARGET_DIRECTORY"
+
+# Delete target directory
 echo "[+] Deleting $ABSOLUTE_TARGET_DIRECTORY"
 rm -rf "$ABSOLUTE_TARGET_DIRECTORY"
 
 echo "[+] Listing Current Directory Location"
-ls -al "$CLONE_DIR"
+ls -al
+
+echo "[+] Listing root Location"
+ls -al /
 
 mv "$TEMP_DIR/.git" "$CLONE_DIR/.git"
 
-echo "[+] Showing current git status"
-git status
 
 # Sanitize commit message (remove references to origin)
 COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
