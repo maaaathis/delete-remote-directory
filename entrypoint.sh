@@ -69,6 +69,9 @@ mv "$TEMP_DIR/.git" "$CLONE_DIR/.git"
 echo "[+] Listing clone dir Location"
 ls -al "$CLONE_DIR"
 
+echo "[+] Show current git status"
+git status
+
 # Sanitize commit message (remove references to origin)
 COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
 COMMIT_MESSAGE=${COMMIT_MESSAGE//$GITHUB_REF/}
