@@ -47,6 +47,12 @@ git clone --single-branch --depth 1 --branch "$TARGET_BRANCH" "$GIT_CMD_REPOSITO
   exit 1
 }
 
+TEMP_DIR=$(mktemp -d)
+# This mv has been the easier way to be able to remove files that were there
+# but not anymore. Otherwise we had to remove the files from "$CLONE_DIR",
+# including "." and with the exception of ".git/"
+mv "$CLONE_DIR/.git" "$TEMP_DIR/.git"
+
 # Prepare target directory
 ABSOLUTE_TARGET_DIRECTORY="$CLONE_DIR/$TARGET_DIRECTORY"
 echo "[+] Deleting $ABSOLUTE_TARGET_DIRECTORY"
@@ -54,6 +60,8 @@ rm -rf "$ABSOLUTE_TARGET_DIRECTORY"
 
 echo "[+] Listing Current Directory Location"
 ls -al "$CLONE_DIR"
+
+mv "$TEMP_DIR/.git" "$CLONE_DIR/.git"
 
 echo "[+] Showing current git status"
 git status
@@ -63,7 +71,7 @@ COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
 COMMIT_MESSAGE=${COMMIT_MESSAGE//$GITHUB_REF/}
 
 # Set safe directory for git
-# git config --global --add safe.directory "$CLONE_DIR"
+git config --global --add safe.directory "$CLONE_DIR"
 
 # Add changes and commit (skip if no changes)
 echo "[+] Adding git commit"
