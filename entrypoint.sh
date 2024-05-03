@@ -33,7 +33,7 @@ git --version
 echo "[+] Enable git lfs"
 git lfs install
 
-echo "[+] Cloning destination git repository $TARGET_REPOSITORY_NAME"
+echo "[+] Cloning destination git repository $TARGET_GITHUB_USERNAME/$TARGET_REPOSITORY_NAME:$TARGET_BRANCH"
 
 # Git configuration
 git config --global user.email "$USER_EMAIL"
@@ -60,7 +60,7 @@ COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
 COMMIT_MESSAGE=${COMMIT_MESSAGE//$GITHUB_REF/}
 
 # Set safe directory for git
-git config --global --add safe.directory "$CLONE_DIR"
+# git config --global --add safe.directory "$CLONE_DIR"
 
 # Add changes and commit (skip if no changes)
 echo "[+] Adding git commit"
