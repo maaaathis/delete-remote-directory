@@ -47,9 +47,6 @@ git clone --single-branch --depth 1 --branch "$TARGET_BRANCH" "$GIT_CMD_REPOSITO
   exit 1
 }
 
-echo "[+] Before moving .git directory"
-ls -al "$CLONE_DIR"
-
 TEMP_DIR=$(mktemp -d)
 
 # Move .git folder to safe backup folder
@@ -57,9 +54,6 @@ mv "$CLONE_DIR/.git" "$TEMP_DIR/.git" || {
   echo "Error: Failed to move .git directory to $TEMP_DIR"
   exit 1
 }
-
-echo "[+] After moving .git directory"
-ls -al "$TEMP_DIR"
 
 # Prepare target directory
 ABSOLUTE_TARGET_DIRECTORY="$CLONE_DIR/$TARGET_DIRECTORY"
@@ -72,24 +66,16 @@ echo "[+] Listing Current Directory Location"
 ls -al
 
 # Move .git directory back to clone dir
-echo "[+] Before moving .git directory back"
-ls -al "$TEMP_DIR"
-
 mv "$TEMP_DIR/.git" "$CLONE_DIR/.git" || {
   echo "Error: Failed to move .git directory back to $CLONE_DIR"
   exit 1
 }
-
-echo "[+] After moving .git directory back"
-ls -al "$CLONE_DIR"
 
 cd "$CLONE_DIR" || {
   echo "Error: Failed to change directory to $CLONE_DIR"
   exit 1
 }
 
-echo "[+] Show current git status"
-git status
 
 # Sanitize commit message (remove references to origin)
 COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
@@ -101,7 +87,7 @@ git config --global --add safe.directory "$CLONE_DIR"
 # Add changes and commit (skip if no changes)
 echo "[+] Adding git commit"
 git add .
-git status &> /dev/null || git commit --message "$COMMIT_MESSAGE"
+git commit --message "$COMMIT_MESSAGE"
 
 # Pull latest changes (rebase to avoid merge conflicts)
 echo "[+] Pull latest changes"
