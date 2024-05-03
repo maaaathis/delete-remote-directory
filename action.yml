@@ -55,5 +55,5 @@ runs:
     - '${{ inputs.target-branch }}'
     - '${{ inputs.commit-message }}'
 branding:
-  icon: delete
+  icon: trash
   color: red
