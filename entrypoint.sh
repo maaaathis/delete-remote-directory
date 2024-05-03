@@ -55,10 +55,6 @@ rm -rf "$ABSOLUTE_TARGET_DIRECTORY"
 echo "[+] Listing Current Directory Location"
 ls -al "$CLONE_DIR"
 
-# Avoid unnecessary root listing for security reasons
-# echo "[+] Listing root Location"
-# ls -al /
-
 # Sanitize commit message (remove references to origin)
 COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
 COMMIT_MESSAGE=${COMMIT_MESSAGE//$GITHUB_REF/}
