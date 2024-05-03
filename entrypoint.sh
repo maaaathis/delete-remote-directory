@@ -1,4 +1,4 @@
-#!/bin/bash -l
+#!/bin/sh -l
 
 set -e  # Stop script on error
 set -u  # Fail if trying to access an undefined variable
