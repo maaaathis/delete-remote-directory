@@ -55,6 +55,9 @@ rm -rf "$ABSOLUTE_TARGET_DIRECTORY"
 echo "[+] Listing Current Directory Location"
 ls -al "$CLONE_DIR"
 
+echo "[+] Showing current git status"
+git status
+
 # Sanitize commit message (remove references to origin)
 COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
 COMMIT_MESSAGE=${COMMIT_MESSAGE//$GITHUB_REF/}
@@ -68,7 +71,7 @@ git add .
 git status &> /dev/null || git commit --message "$COMMIT_MESSAGE"
 
 # Pull latest changes (rebase to avoid merge conflicts)
-echo "[+] git pull:"
+echo "[+] Pull latest changes"
 git pull --rebase
 
 # Push changes to target branch with --set-upstream
