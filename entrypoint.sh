@@ -63,11 +63,11 @@ rm -rf "$ABSOLUTE_TARGET_DIRECTORY"
 echo "[+] Listing Current Directory Location"
 ls -al
 
-echo "[+] Listing root Location"
-ls -al /
-
+# Move .git directory back to clone dir
 mv "$TEMP_DIR/.git" "$CLONE_DIR/.git"
 
+echo "[+] Listing clone dir Location"
+ls -al "$CLONE_DIR"
 
 # Sanitize commit message (remove references to origin)
 COMMIT_MESSAGE=${COMMIT_MESSAGE//ORIGIN_COMMIT/}
