@@ -83,6 +83,11 @@ mv "$TEMP_DIR/.git" "$CLONE_DIR/.git" || {
 echo "[+] After moving .git directory back"
 ls -al "$CLONE_DIR"
 
+cd "$CLONE_DIR" || {
+  echo "Error: Failed to change directory to $CLONE_DIR"
+  exit 1
+}
+
 echo "[+] Show current git status"
 git status
 
